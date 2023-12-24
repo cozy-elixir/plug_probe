@@ -10,6 +10,7 @@ defmodule PlugProbe.Mixfile do
       app: :plug_probe,
       version: @version,
       elixir: "~> 1.11",
+      start_permanent: Mix.env() == :prod,
       deps: deps(),
       description: @description,
       source_url: @source_url,
