@@ -7,7 +7,7 @@
 
 ## Installation and docs
 
-Add `plug_probe` to the list of dependencies in `mix.exs`:
+Add `:plug_probe` to the list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
