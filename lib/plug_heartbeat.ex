@@ -53,16 +53,18 @@ defmodule PlugHeartbeat do
     do: Keyword.merge([path: @default_path, json: false], opts)
 
   def call(%Plug.Conn{} = conn, opts) do
-    if conn.request_path == opts[:path] and conn.method in ~w(GET HEAD) do
-      conn |> halt |> send_beat(opts[:json])
+    expected_path_info = String.split(opts[:path], "/", trim: true)
+
+    if conn.path_info == expected_path_info and conn.method in ~w(GET HEAD) do
+      conn |> halt |> response(opts[:json])
     else
       conn
     end
   end
 
-  defp send_beat(conn, false = _json),
+  defp response(conn, false = _json),
     do: send_resp(conn, 200, "OK")
 
-  defp send_beat(conn, true = _json),
+  defp response(conn, true = _json),
     do: conn |> put_resp_content_type("application/json") |> send_resp(200, "{}")
 end
